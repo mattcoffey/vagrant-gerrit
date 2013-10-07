@@ -22,3 +22,4 @@ vagrant up
 
 # Ssh into the newly started VM and see custom welcome message
 vagrant ssh
+

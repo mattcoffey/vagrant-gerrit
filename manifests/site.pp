@@ -1,3 +1,5 @@
+import '/vagrant/modules/jre/manifests/*'
+
 group { "puppet":
     ensure => "present",
 }
@@ -12,15 +14,10 @@ package { "vim-enhanced":
     ensure => present,
 }
 
-class jre ( $src ) {
-    package { 'package':
-        provider => 'rpm',
-        ensure => installed,
-        name => "jre-1.7.0_40-fcs.i586",
-        source => "${jre::src}"
-    }
+
+package { 'jre-1.7.0_40-fcs.x86_64':
+    provider => 'rpm',
+    ensure => installed,
+    source => 'http://javadl.sun.com/webapps/download/AutoDL?BundleId=80804'
 }
 
-class { 'jre':
-    src => 'http://javadl.sun.com/webapps/download/AutoDL?BundleId=80802',
-}

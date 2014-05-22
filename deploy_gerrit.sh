@@ -20,9 +20,9 @@
 
 if [[ -f /etc/deploy ]];
 then
-    echo "Deployment script has been run before on:"
+    echo "Provisioned before on:"
     echo cat /etc/deploy
-    echo "Skipping..."
+    echo "Skipping deploy_gerrit.sh..."
     exit 0
 fi
 
@@ -39,19 +39,25 @@ do
         esac 
 done
 
+# Add this host to firewall
 echo "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4\n" > /etc/hosts
 echo "::1 localhost localhost.localdomain localhost6 localhost6.localdomain6\n" >> /etc/hosts 
 echo "$IP $HOSTNAME $HOSTNAME" >> /etc/hosts
 
-sudo su
-service iptables stop 
-rpm -ivh http://javadl.sun.com/webapps/download/AutoDL?BundleId=80804 
+# Drop firewall TODO configure firewall instead
+service iptables stop
+# Install Java
+rpm -ivh http://javadl.sun.com/webapps/download/AutoDL?BundleId=80804
+# Install Git
 yum -y install git
+# Create gerrit2 user
 sudo adduser gerrit2 
-sudo su gerrit2 
-wget --quiet --no-check-certificate https://gerrit-releases.storage.googleapis.com/gerrit-2.8.5.war 
-java -jar gerrit-2.8.5.war init --batch -d ~/gerrit
+
+# Download Gerrit
+wget --quiet --no-check-certificate https://gerrit-releases.storage.googleapis.com/gerrit-2.8.5.war  -O - >> /tmp/gerrit.war
+chmod 555 /tmp/gerrit.war
+
+# Initialise and start Gerrit
+su - gerrit2 -c "java -jar /tmp/gerrit.war init --batch -d ~/gerrit"
 
 exit 0;
-~                                                                                                                                     
-~                                                   

@@ -54,7 +54,7 @@ yum -y install git
 sudo adduser gerrit2 
 
 # Download Gerrit
-wget --quiet --no-check-certificate https://gerrit-releases.storage.googleapis.com/gerrit-2.8.5.war  -O - >> /tmp/gerrit.war
+wget --quiet --no-check-certificate https://gerrit-releases.storage.googleapis.com/gerrit-2.8.5.war -O - >> /tmp/gerrit.war
 chmod 555 /tmp/gerrit.war
 
 # Initialise and start Gerrit

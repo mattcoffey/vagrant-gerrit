@@ -39,7 +39,7 @@ do
         esac 
 done
 
-# Add this host to firewall
+# Add this hostname to /etc/hosts
 echo "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4\n" > /etc/hosts
 echo "::1 localhost localhost.localdomain localhost6 localhost6.localdomain6\n" >> /etc/hosts 
 echo "$IP $HOSTNAME $HOSTNAME" >> /etc/hosts
@@ -60,4 +60,4 @@ chmod 555 /tmp/gerrit.war
 # Initialise and start Gerrit
 su - gerrit2 -c "java -jar /tmp/gerrit.war init --batch -d ~/gerrit"
 
-exit 0;
+exit 0

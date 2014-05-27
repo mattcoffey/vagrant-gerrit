@@ -42,6 +42,9 @@ pbcopy < ~/.ssh/id_rsa.pub
 # Click Save Changes at the bottom
 
 Gerrit
+Start:
+~/gerrit/bin/gerrit.sh start
+
 Log:
 /home/gerrit2/gerrit/logs/error_log
 
@@ -49,6 +52,9 @@ Config:
 /home/gerrit2/gerrit/etc/gerrit.config
 
 Jenkins
+Start:
+service jenkins start
+
 Log:
 /var/log/jenkins/jenkins.log
 

@@ -18,31 +18,31 @@
 #      REVISION:  --- 
 #=============================================================================== 
 
-if [[ -f /etc/deploy ]];
+if [[ -f /etc/provisioned ]];
 then
     echo "Provisioned before on:"
-    echo cat /etc/deploy
+    echo "$(cat /etc/provisioned)"
     echo "Skipping deploy_gerrit.sh..."
     exit 0
 fi
 
 timestamp="(date + "%T")"
 
-echo "Provisioned on $timestamp" > /etc/deploy
+echo "Provisioned on $timestamp" > /etc/provisioned
 
 while getopts i:h: option 
 do 
         case "${option}" 
         in 
                 i) IP=$OPTARG;; 
-                h) HOSTNAME=$OPTARG;; 
+                h) HOST=$OPTARG;; 
         esac 
 done
 
 # Add this hostname to /etc/hosts
 echo "127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4\n" > /etc/hosts
 echo "::1 localhost localhost.localdomain localhost6 localhost6.localdomain6\n" >> /etc/hosts 
-echo "$IP $HOSTNAME $HOSTNAME" >> /etc/hosts
+echo "$IP $HOST $HOST" >> /etc/hosts
 
 # Drop firewall TODO configure firewall instead
 service iptables stop

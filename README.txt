@@ -1,5 +1,7 @@
 Automated Gerrit install using Vagrant
 
+Warning: this project is a bit broken
+
 Automatically downloads a CentOS VM image, starts it up using VirtualBox and runs a shell script which installs and configures Gerrit
 (requires x64 host machine)
 

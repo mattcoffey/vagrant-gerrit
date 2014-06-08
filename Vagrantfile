@@ -1,6 +1,5 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -17,14 +16,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.
-    config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+    config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20131103.box"
 
     # Create a private network, which allows host-only access to the machine
     # using a static IP.
-    config.vm.network :private_network, ip: "172.28.128.2", :netmask => "255.255.0.0", adapter: 2
-    # Provision Gerrit via a shell script
-    config.vm.provision "shell", :path => "deploy_gerrit.sh" do |s|
-        s.args = "-i 172.28.128.2 -h gerrit"
+    config.vm.network :private_network, ip: "172.28.128.5", :netmask => "255.255.0.0", adapter: 2
+    # Provision Docker via a shell script
+    config.vm.provision "shell", :path => "deploy_docker.sh" do |s|
+        s.args = "-i 172.28.128.5 -h docker"
     end
   end
 
@@ -48,15 +47,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider :virtualbox do |vb|
-  #   # Don't boot with headless mode
-  #   vb.gui = true
-  #
-  #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
+  # Provider-specific configuration
+  config.vm.provider :virtualbox do |vb|
+    # Don't boot with headless mode
+    # vb.gui = true
+    # Use VBoxManage to customize the VM
+    # Increase RAM to 1GB
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
 end

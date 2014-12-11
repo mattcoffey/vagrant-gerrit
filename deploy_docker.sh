@@ -49,17 +49,22 @@ then
     echo "$IP $HOST $HOST" >> /etc/hosts
 fi
 
-# Install dependencies
-yum -y update
-yum install -y vim mysql wget git gcc pcre-devel openssl-devel
+echo "Installing wget..."
+yum install wget <<EOF
+y
+EOF
 
-rpm -Uhv --force http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-centos93-9.3-1.noarch.rpm
-yum install -y postgresql93
+echo "Installing Docker"
+yum install docker-io <<EOF
+y
+EOF
 
-# Install and start Docker
-rpm -Uvh --force http://mirrors.kernel.org/fedora-epel/6/x86_64/epel-release-6-8.noarch.rpm
-yum -y install docker-io
+echo 'other_args="-H tcp://0.0.0.0:4243"' >> /etc/sysconfig/docker
+service docker restart
+echo 'export DOCKER_HOST=tcp://0.0.0.0:4243' >> /home/vagrant/.bashrc
+echo 'alias docker="sudo docker -H $DOCKER_HOST"' >> /home/vagrant/.bashrc
 
+echo "Starting Docker Daemon"
 service docker start
 chkconfig docker on
 
